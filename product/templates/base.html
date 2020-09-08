@@ -1,0 +1,21 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - ProductImages</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1><a href="{{ url_for('product.index') }}"> Fashion Products</a></h1>
+
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  <form action="{{ url_for('search.search_by_keyword') }}" method="post">
+    <label for="search">Search For a Product!</label>
+    <input name="search" id="search" required>
+    <input type="submit" value="Go">
+  </form>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %} {% endblock %}
+</section>

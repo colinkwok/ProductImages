@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Products{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for product in products %}
+    <article class="product">
+      <header>
+        <div>
+          <h1>{{ product['productDisplayName'] }}</h1>
+          <div class="about"> {{ product['articleType'] }} in {{ product['baseColour'] }}</div>
+        </div>
+      </header>
+
+        <ul>
+          <li>ID: {{ product['id'] }}</li>
+          <li>Gender: {{ product['gender'] }}</li>
+          <li>Master Category: {{ product['masterCategory'] }}</li>
+          <li>Sub Category: {{ product['subCategory'] }}</li>
+          <li>Season: {{ product['season'] }}</li>
+          <li>Year: {{ product['year'] }}</li>
+          <li>Usage: {{ product['usage'] }}</li>
+        </ul>
+        <img src="/static/{{ product['id'] }}.jpg">
+
+        <form action="{{ url_for('search.search_by_similarity', id=product['id']) }}" method="post">
+            <input type="submit" value="Show me Similar Products!">
+        </form>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

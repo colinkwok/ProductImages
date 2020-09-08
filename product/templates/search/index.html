@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Search Results{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <div>
+        {% if query_product_name and query_id %}
+            <h1>Products similar to: {{ query_product_name }}</h1>
+            <img src="/static/{{ query_id }}.jpg">
+        {% elif query %}
+            <h1>Products related to: {{ query }}</h1>
+        {% endif %}
+    </div>
+</header>
+
+{% if not products %}
+    <article class="product">
+        <header>
+        <div>
+          <h1>No Similar Products were found</h1>
+        </div>
+        </header>
+    </article>
+{% else %}
+    {% for product in products %}
+    <article class="product">
+      <header>
+        <div>
+          <h1>{{ product['productDisplayName'] }}</h1>
+          <div class="about"> {{ product['articleType'] }} in {{ product['baseColour'] }}</div>
+        </div>
+      </header>
+      <ul>
+          <li>ID: {{ product['id'] }}</li>
+          <li>Gender: {{ product['gender'] }}</li>
+          <li>Master Category: {{ product['masterCategory'] }}</li>
+          <li>Sub Category: {{ product['subCategory'] }}</li>
+          <li>Season: {{ product['season'] }}</li>
+          <li>Year: {{ product['year'] }}</li>
+          <li>Usage: {{ product['usage'] }}</li>
+      </ul>
+        <img src="/static/{{ product['id'] }}.jpg">
+
+        <form method="post">
+
+        </form>
+        <button type="button" href="{{ url_for('search.search_by_similarity', id=product['id']) }}">Show me Similar Products!</button>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endblock %}
